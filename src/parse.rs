@@ -390,7 +390,7 @@ pub fn parse_str(sentence_input: &str) -> Result<ParseResult, Error> {
             SentenceType::RPM => {
                 cfg_if! {
                     if #[cfg(feature = "RPM")] {
-                        parse_pgrmz(nmea_sentence).map(ParseResult::RPM)
+                        parse_rpm(nmea_sentence).map(ParseResult::RPM)
                     } else {
                         return Err(Error::DisabledSentence);
                     }
