@@ -20,6 +20,7 @@ pub mod mtw;
 pub mod mwv;
 pub mod rmc;
 pub mod rmz;
+pub mod rpm;
 pub mod ttm;
 pub mod txt;
 pub mod utils;
@@ -59,6 +60,7 @@ pub use {
     mwv::{parse_mwv, MwvData},
     rmc::{parse_rmc, RmcData},
     rmz::{parse_pgrmz, PgrmzData},
+    rpm::{parse_rpm, RpmData, RpmSource},
     ttm::{
         parse_ttm, TtmAngle, TtmData, TtmDistanceUnit, TtmReference, TtmStatus,
         TtmTypeOfAcquisition,
