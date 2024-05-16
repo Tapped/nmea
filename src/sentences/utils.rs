@@ -6,7 +6,7 @@ use nom::{
     branch::alt,
     bytes::complete::{tag, take, take_until},
     character::complete::{char, digit1, one_of},
-    combinator::{map, map_parser, map_res},
+    combinator::{map, map_parser, map_res, opt},
     number::complete::{double, float},
     sequence::tuple,
     IResult,
@@ -217,6 +217,23 @@ pub(crate) fn array_string<const MAX_LEN: usize>(
         max_length: MAX_LEN,
         parameter_length: string.len(),
     })
+}
+
+/// Parses a common status string found on some sensors in NMEA, of the following form:
+/// 'A' = data valid,
+/// 'V' = data invalid
+pub(crate) fn parse_valid_status(i: &str) -> IResult<&str, bool> {
+    let (i, valid_char) = opt(one_of("AV"))(i)?;
+    Ok((
+        i,
+        valid_char
+            .map(|char| match char {
+                'A' => true,
+                'V' => false,
+                _ => unreachable!(),
+            })
+            .unwrap_or(false),
+    ))
 }
 
 #[cfg(test)]
