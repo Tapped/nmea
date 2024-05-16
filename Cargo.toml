@@ -70,7 +70,7 @@ all-sentences = ["GNSS", "waypoint", "maritime", "water", "vendor-specific", "ot
 GNSS = ["APA", "ALM", "GBS", "GGA", "GLL", "GNS", "GSA", "GST", "GSV", "RMC", "VTG"]
 
 waypoint = ["AAM", "BOD", "BWC", "BWW", "WNC", "ZFO", "ZTG"]
-maritime = ["waypoint", "water", "radar", "RPM"]
+maritime = ["waypoint", "water", "radar", "RPM", "RSA"]
 radar = ["TTM"]
 water = ["DBK", "MTW", "VHW"]
 vendor-specific = ["RMZ"]
@@ -155,6 +155,9 @@ RMZ = []
 
 # RPM - Engine or shaft revolutions
 RPM = []
+
+# RSA - Rudder sensor angle
+RSA = []
 
 # TTM - Tracked target message
 TTM = []
