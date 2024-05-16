@@ -1,6 +1,6 @@
 use nom::{
     bytes::complete::take_until,
-    character::{complete::char},
+    character::complete::char,
     combinator::{map_res, opt},
     IResult,
 };
