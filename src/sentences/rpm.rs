@@ -8,7 +8,7 @@ use nom::{
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-use super::utils::{number, parse_float_num, parse_num};
+use super::utils::{parse_float_num, parse_num};
 use crate::{Error, NmeaSentence, SentenceType};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
@@ -99,21 +99,19 @@ fn do_parse_rpm(i: &str) -> IResult<&str, RpmData> {
     Ok((
         i,
         RpmData {
-            source: source,
-            engine_or_shaft_number: engine_or_shaft_number,
-            speed: speed,
-            propeller_pitch: propeller_pitch,
-            valid: valid,
+            source,
+            engine_or_shaft_number,
+            speed,
+            propeller_pitch,
+            valid,
         },
     ))
 }
 
 #[cfg(test)]
 mod tests {
-    use approx::assert_relative_eq;
 
     use super::*;
-    use crate::parse::parse_nmea_sentence;
 
     #[test]
     fn test_parse_rpm_full() {
