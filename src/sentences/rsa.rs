@@ -1,6 +1,6 @@
 use nom::{
     bytes::complete::take_until,
-    character::{complete::char, streaming::one_of},
+    character::{complete::char},
     combinator::{map_res, opt},
     IResult,
 };
@@ -8,7 +8,7 @@ use nom::{
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-use super::utils::{parse_float_num, parse_num, parse_valid_status};
+use super::utils::{parse_float_num, parse_valid_status};
 use crate::{Error, NmeaSentence, SentenceType};
 
 /// RSA - Rudder sensor angle
