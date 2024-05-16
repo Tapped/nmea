@@ -8,7 +8,7 @@ use nom::{
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-use super::utils::{parse_float_num, parse_num};
+use super::utils::{parse_float_num, parse_num, parse_valid_status};
 use crate::{Error, NmeaSentence, SentenceType};
 
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
@@ -87,15 +87,7 @@ fn do_parse_rpm(i: &str) -> IResult<&str, RpmData> {
     let (i, propeller_pitch) = opt(map_res(take_until(","), parse_float_num::<f32>))(i)?;
     let (i, _) = char(',')(i)?;
 
-    let (i, valid_char) = opt(one_of("AV"))(i)?;
-    let valid = valid_char
-        .map(|char| match char {
-            'A' => true,
-            'V' => false,
-            _ => unreachable!(),
-        })
-        .unwrap_or(false);
-
+    let (i, valid) = parse_valid_status(i)?;
     Ok((
         i,
         RpmData {
