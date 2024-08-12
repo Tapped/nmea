@@ -1,9 +1,10 @@
 use chrono::{NaiveDate, NaiveTime};
 use nom::{
+    bytes::complete::take_until,
     character::complete::{anychar, char, one_of},
     combinator::{cond, map_res, opt},
     number::complete::float,
-    IResult,
+    IResult, Parser,
 };
 
 #[cfg(feature = "serde")]
@@ -123,7 +124,11 @@ fn do_parse_rmc(i: &str) -> IResult<&str, RmcData> {
     let (i, true_course) = opt(float)(i)?;
     let (i, _) = char(',')(i)?;
     // 9.  Date, `ddmmyy`
-    let (i, fix_date) = opt(parse_date)(i)?;
+    let parsed_date = parse_date(i);
+    let (i, fix_date) = match parsed_date {
+        Ok((i, date)) => (i, Some(date)),
+        Err(_) => (take_until(",")(i)?.0, None),
+    };
     let (i, _) = char(',')(i)?;
     // 10. Magnetic Variation, degrees
     // // 11. `E` or `W`
@@ -388,5 +393,17 @@ mod tests {
         assert_relative_eq!(magnetic_variation.unwrap(), 0.0);
         assert_eq!(faa_mode, Some(FaaMode::Manual));
         assert_eq!(nav_status, Some(RmcNavigationStatus::Estimated));
+    }
+
+    #[test]
+    fn parse_rmc_invalid_time() {
+        let rmc_v41 = "$GPRMC,080007.00,A,3325.141,N,11830.534,W,7.5,20.5,20220715,,,A,S*02";
+        let RmcData {
+            speed_over_ground, ..
+        } = parse_nmea_sentence(rmc_v41)
+            .map(parse_rmc)
+            .unwrap()
+            .unwrap();
+        assert_relative_eq!(speed_over_ground.unwrap(), 7.5);
     }
 }
