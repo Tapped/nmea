@@ -114,6 +114,7 @@ pub enum ParseResult {
     BWC(BwcData),
     BWW(BwwData),
     DBK(DbkData),
+    DPT(DptData),
     GBS(GbsData),
     GGA(GgaData),
     GLL(GllData),
@@ -151,6 +152,7 @@ impl From<&ParseResult> for SentenceType {
             ParseResult::BWC(_) => SentenceType::BWC,
             ParseResult::BWW(_) => SentenceType::BWW,
             ParseResult::DBK(_) => SentenceType::DBK,
+            ParseResult::DPT(_) => SentenceType::DPT,
             ParseResult::GBS(_) => SentenceType::GBS,
             ParseResult::GGA(_) => SentenceType::GGA,
             ParseResult::GLL(_) => SentenceType::GLL,
@@ -267,6 +269,15 @@ pub fn parse_str(sentence_input: &str) -> Result<ParseResult, Error> {
                 cfg_if! {
                     if #[cfg(feature = "DBK")] {
                         parse_dbk(nmea_sentence).map(Into::into)
+                    } else {
+                        return Err(Error::DisabledSentence);
+                    }
+                }
+            }
+            SentenceType::DPT => {
+                cfg_if! {
+                    if #[cfg(feature = "DPT")] {
+                        parse_dpt(nmea_sentence).map(ParseResult::DPT)
                     } else {
                         return Err(Error::DisabledSentence);
                     }
