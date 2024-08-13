@@ -21,6 +21,7 @@ pub mod mtw;
 pub mod mwv;
 pub mod rmc;
 pub mod rmz;
+pub mod rot;
 pub mod rpm;
 pub mod rsa;
 pub mod ttm;
@@ -63,6 +64,7 @@ pub use {
     mwv::{parse_mwv, MwvData},
     rmc::{parse_rmc, RmcData},
     rmz::{parse_pgrmz, PgrmzData},
+    rot::{parse_rot, RotData},
     rpm::{parse_rpm, RpmData, RpmSource},
     rsa::{parse_rsa, RsaData},
     ttm::{

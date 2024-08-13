@@ -34,17 +34,11 @@ pub struct DptData {
 
 /// # Parse DPT message
 ///
-/// From gpsd/driver_nmea0183.c
-///
 /// ```text
 /// $INDPT,2.3,0.0*46
 ///
 /// DPT,x.x,x.x,x.x*hh<CR><LF>
 /// ```
-///
-/// The only data field is true heading in degrees.
-/// The following field is required to be 'T' indicating a true heading.
-/// It is followed by a mandatory nmea_checksum.
 pub fn parse_dpt(sentence: NmeaSentence) -> Result<DptData, Error> {
     if sentence.message_id != SentenceType::DPT {
         Err(Error::WrongSentenceHeader {

@@ -4,7 +4,7 @@ use nom::{
     character::complete::{anychar, char, one_of},
     combinator::{cond, map_res, opt},
     number::complete::float,
-    IResult, Parser,
+    IResult,
 };
 
 #[cfg(feature = "serde")]

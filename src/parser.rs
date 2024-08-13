@@ -385,6 +385,7 @@ impl<'a> Nmea {
             | ParseResult::MWV(_)
             | ParseResult::MDA(_)
             | ParseResult::VHW(_)
+            | ParseResult::ROT(_)
             | ParseResult::RPM(_)
             | ParseResult::RSA(_)
             | ParseResult::TTM(_)

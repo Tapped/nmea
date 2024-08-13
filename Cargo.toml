@@ -72,7 +72,7 @@ GNSS = ["APA", "ALM", "GBS", "GGA", "GLL", "GNS", "GSA", "GST", "GSV", "RMC", "V
 waypoint = ["AAM", "BOD", "BWC", "BWW", "WNC", "ZFO", "ZTG"]
 maritime = ["waypoint", "water", "radar", "RPM", "RSA"]
 radar = ["TTM"]
-water = ["DBK", "DPT", "MTW", "VHW"]
+water = ["DBK", "DPT", "MTW", "ROT", "VHW"]
 vendor-specific = ["RMZ"]
 other = ["HDT", "MDA", "MWV", "TXT", "ZDA"]
 
@@ -156,6 +156,9 @@ RMC = []
 # PGRMZ - Garmin Altitude (Vendor specific)
 # feature: vendor-specific
 RMZ = []
+
+# ROT - Rate of Turn
+ROT = []
 
 # RPM - Engine or shaft revolutions
 RPM = []
