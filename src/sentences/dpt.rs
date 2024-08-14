@@ -1,4 +1,4 @@
-use nom::{character::complete::char, combinator::opt, IResult};
+use nom::{character::complete::char, combinator::opt, number::complete::float, IResult};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -51,13 +51,13 @@ pub fn parse_dpt(sentence: NmeaSentence) -> Result<DptData, Error> {
 }
 
 fn do_parse_dpt(i: &str) -> IResult<&str, DptData> {
-    let (i, relative_depth) = opt(super::utils::number::<f32>)(i)?;
+    let (i, relative_depth) = opt(float)(i)?;
     let (i, _) = char(',')(i)?;
-    let (i, offset_from_transducer) = opt(super::utils::number::<f32>)(i)?;
+    let (i, offset_from_transducer) = opt(float)(i)?;
 
     // Optionally NMEA v3 data
     let (i, _) = opt(char(','))(i)?;
-    let (i, max_scale_in_use) = opt(super::utils::number::<f32>)(i)?;
+    let (i, max_scale_in_use) = opt(float)(i)?;
     Ok((
         i,
         DptData {

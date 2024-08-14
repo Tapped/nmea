@@ -6,9 +6,9 @@ use nom::{
     branch::alt,
     bytes::complete::{tag, take, take_until},
     character::complete::{char, digit1, one_of},
-    combinator::{map, map_parser, map_res, opt, recognize},
+    combinator::{map, map_parser, map_res, opt},
     number::complete::{double, float},
-    sequence::{pair, tuple},
+    sequence::tuple,
     IResult,
 };
 
@@ -186,10 +186,7 @@ pub(crate) fn parse_float_num<T: str::FromStr>(input: &str) -> Result<T, &'stati
 }
 
 pub(crate) fn number<T: str::FromStr>(i: &str) -> IResult<&str, T> {
-    map_res(
-        recognize(tuple((digit1, opt(pair(char('.'), opt(digit1)))))),
-        parse_num,
-    )(i)
+    map_res(digit1, parse_num)(i)
 }
 
 pub(crate) fn parse_number_in_range<T>(

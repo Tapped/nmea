@@ -1,4 +1,4 @@
-use nom::{character::complete::char, combinator::opt, IResult};
+use nom::{character::complete::char, combinator::opt, number::complete::float, IResult};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -47,7 +47,7 @@ pub fn parse_rot(sentence: NmeaSentence) -> Result<RotData, Error> {
 }
 
 fn do_parse_rot(i: &str) -> IResult<&str, RotData> {
-    let (i, rot) = opt(super::utils::number::<f32>)(i)?;
+    let (i, rot) = opt(float)(i)?;
     let (i, _) = char(',')(i)?;
     let (i, valid) = parse_valid_status(i)?;
     Ok((i, RotData { rot, valid }))
